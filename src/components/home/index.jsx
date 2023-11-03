@@ -66,8 +66,16 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useGetHomeQuery } from "../../redux/api/homeApi";
 
 const Home = () => {
+  const { isError, isLoading, data } = useGetHomeQuery();
+  const categories = data?.result?.data?.getCategories?.data?.categories;
+  const latestAds = data?.result?.data?.getLatestListings?.data?.latest?.posts;
+  console.log(latestAds);
+  // console.log(data?.result?.data?.getCategories?.data?.categories);
+
+  // console.log(categories);
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
@@ -224,90 +232,15 @@ const Home = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-2 col-md-3 col-sm-6">
-              <Link to="categories" className="category-links">
-                <h5>Automotive</h5>
-                <span>09 Ads</span>
-                <img src={Category1Svg} alt="icons" />
-              </Link>
-            </div>
-            <div className="col-lg-2 col-md-3 col-sm-6">
-              <Link to="/categories" className="category-links">
-                <h5>Electronics</h5>
-                <span>09 Ads</span>
-                <img src={Category2Svg} alt="icons" />
-              </Link>
-            </div>
-            <div className="col-lg-2 col-md-3 col-sm-6">
-              <Link to="/categories" className="category-links">
-                <h5>Fashion Style</h5>
-                <span>09 Ads</span>
-                <img src={Category3Svg} alt="icons" />
-              </Link>
-            </div>
-            <div className="col-lg-2 col-md-3 col-sm-6">
-              <Link to="/categories" className="category-links">
-                <h5>Health Care</h5>
-                <span>09 Ads</span>
-                <img src={Category4Svg} alt="icons" />
-              </Link>
-            </div>
-            <div className="col-lg-2 col-md-3 col-sm-6">
-              <Link to="/categories" className="category-links">
-                <h5>Job Board</h5>
-                <span>09 Ads</span>
-                <img src={Category5Svg} alt="icons" />
-              </Link>
-            </div>
-            <div className="col-lg-2 col-md-3 col-sm-6">
-              <Link to="/categories" className="category-links">
-                <h5>Education</h5>
-                <span>09 Ads</span>
-                <img src={Category6Svg} alt="icons" />
-              </Link>
-            </div>
-            <div className="col-lg-2 col-md-3 col-sm-6">
-              <Link to="/categories" className="category-links">
-                <h5>Real Estate</h5>
-                <span>09 Ads</span>
-                <img src={Category7Svg} alt="icons" />
-              </Link>
-            </div>
-            <div className="col-lg-2 col-md-3 col-sm-6">
-              <Link to="/categories" className="category-links">
-                <h5>Travel</h5>
-                <span>09 Ads</span>
-                <img src={Category8Svg} alt="icons" />
-              </Link>
-            </div>
-            <div className="col-lg-2 col-md-3 col-sm-6">
-              <Link to="/categories" className="category-links">
-                <h5>Sports & Game</h5>
-                <span>09 Ads</span>
-                <img src={Category9Svg} alt="icons" />
-              </Link>
-            </div>
-            <div className="col-lg-2 col-md-3 col-sm-6">
-              <Link to="/categories" className="category-links">
-                <h5>Magazines</h5>
-                <span>09 Ads</span>
-                <img src={Category10Svg} alt="icons" />
-              </Link>
-            </div>
-            <div className="col-lg-2 col-md-3 col-sm-6">
-              <Link to="/categories" className="category-links">
-                <h5>Pet & Animal</h5>
-                <span>09 Ads</span>
-                <img src={Category11Svg} alt="icons" />
-              </Link>
-            </div>
-            <div className="col-lg-2 col-md-3 col-sm-6">
-              <Link to="/categories" className="category-links">
-                <h5>House Hold</h5>
-                <span>09 Ads</span>
-                <img src={Category12Svg} alt="icons" />
-              </Link>
-            </div>
+            {
+              categories && Object.values(categories).map((cat, index)=><div key={index} className="col-lg-2 col-md-3 col-sm-6">
+                <Link to="categories" className="category-links">
+                  <h5>{cat.name}</h5>
+                  <span>09 Ads</span>
+                  <img src={cat.picture_url} alt="icons" />
+                </Link>
+              </div>)
+            }
           </div>
         </div>
       </section>
@@ -508,7 +441,77 @@ const Home = () => {
           </div>
           <div className="lateestads-content">
             <div className="row">
-              <div className="col-lg-3 col-md-4 col-sm-6 d-flex">
+              {
+                latestAds && latestAds.map((ads, index)=><div key={index} className="col-lg-3 col-md-4 col-sm-6 d-flex">
+                <div className="card aos flex-fill" data-aos="fade-up">
+                  <div className="blog-widget">
+                    <div className="blog-img">
+                      <Link to="/service-details">
+                        <img
+                          src={Feature9}
+                          className="img-fluid"
+                          alt="blog-img"
+                        />
+                      </Link>
+                      <div className="fav-item">
+                        <span className="Featured-text">Featured</span>
+                        <Link to="#" className="fav-icon">
+                          <i className="feather-heart"></i>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="bloglist-content">
+                      <div className="card-body">
+                        <div className="blogfeaturelink">
+                          <div className="grid-author">
+                            <img src={ProfileAvatar02} alt="author" />
+                          </div>
+                          <div className="blog-features">
+                            <Link to="#">
+                              <span>
+                                {" "}
+                                <i className="fa-regular fa-circle-stop"></i>{" "}
+                                Education
+                              </span>
+                            </Link>
+                          </div>
+                          <div className="blog-author text-end">
+                            <span>
+                              {" "}
+                              <i className="feather-eye"></i> 4000{" "}
+                            </span>
+                          </div>
+                        </div>
+                        <h6>
+                          <Link to="/service-details">
+                            {ads.title}
+                          </Link>
+                        </h6>
+                        <div className="blog-location-details">
+                          <div className="location-info">
+                            <i className="feather-map-pin"></i> Los Angeles
+                          </div>
+                          <div className="location-info">
+                            <i className="fa-solid fa-calendar-days"></i> 06
+                            Oct, 2022
+                          </div>
+                        </div>
+                        <div className="amount-details">
+                          <div className="amount">
+                            <span className="validrate">${ads.price_formatted}</span>
+                            <span>$450</span>
+                          </div>
+                          <div className="ratings">
+                            <span>4.7</span> (50)
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>)
+              }
+              {/* <div className="col-lg-3 col-md-4 col-sm-6 d-flex">
                 <div className="card aos flex-fill" data-aos="fade-up">
                   <div className="blog-widget">
                     <div className="blog-img">
@@ -1048,7 +1051,7 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

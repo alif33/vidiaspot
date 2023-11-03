@@ -46,7 +46,7 @@ const [menu, setMenu] = useState(false);
                 <span></span>
               </span>
             </Link>
-            <Link to="/index" className="navbar-brand logo">
+            <Link to="/" className="navbar-brand logo">
               <img src={LogoSvg} className="img-fluid" alt="Logo" />
             </Link>
           </div>
@@ -66,7 +66,7 @@ const [menu, setMenu] = useState(false);
               </Link>
             </div>
             <ul className="main-nav">
-              <HomeMenu activeMenu={"Classified"} />
+              {/* <HomeMenu activeMenu={"Classified"} /> */}
               <ListingMenu activeMenu={parms}/>
               <PagesMenu activeMenus={parms}/>
               <UserPagesMenu />
