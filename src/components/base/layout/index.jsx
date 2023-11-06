@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import Header from "../home/header";
-import Footer from "../home/footer/Footer";
+import Header from "../header";
+import Footer from "../footer";
 import { Link } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 const Layout = ({ children }) => { 
     return (
         <>
+            <Header />
             <Toaster
                 position="top-center"
                 reverseOrder={false}
             />
-            <Header />
             <div className="breadcrumb-bar">
                 <div className="container">
                     <div className="row align-items-center text-center">

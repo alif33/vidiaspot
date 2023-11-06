@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Layout from "../layout";
+import Layout from "../base/layout";
 import { useForm } from "react-hook-form";
 import HTTP from "../../lib/HTTP";
 import toast from "react-hot-toast";

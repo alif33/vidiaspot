@@ -54,11 +54,11 @@ import {
   RightImg,
   Testimonial1,
   Testimonial2,
-} from "../imagepath";
+} from "../../lib/imagepath";
 import Carousel from "./slider/Carousel";
-import Footer from "./footer/Footer";
+import Footer from "../../components/base/footer";
 
-import Header from "./header";
+import Header from "../../components/base/header";
 import Testimonial from "./slider/Testimonial";
 import Sponsors from "./slider/Sponsors";
 import Select from "./select";

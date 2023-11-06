@@ -1,41 +1,33 @@
 import React from "react";
-import Header from "../home/header";
-import { Link } from "react-router-dom";
 import { contactform_img, contactleftimg } from "../imagepath";
-import Footer from "../home/footer/Footer";
-
-
-
-
+import { useForm } from "react-hook-form";
+import Layout from "../../components/base/layout";
+import HTTP from "../../lib/HTTP";
+import toast from "react-hot-toast";
 
 const Contract = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset
+    } = useForm();
+
+    const onErr = err => console.log(err);
+
+    const onSubmit = async(data) => {
+        HTTP('post', '/contact', {...data, country_name: "Bangladsh", country_code: "BD"})
+        .then(res=>{
+            if (res.success) {
+                toast.success('Your message has been sent.');
+                reset();
+            }
+        })
+        .catch(err=>console.log(err))
+    };
+
     return (
-        <>
-            <Header />
-            {/*Inner Banner*/}
-            <div className="contactbanner innerbanner">
-                <div className="inner-breadcrumb">
-                    <div className="container">
-                        <div className="row align-items-center text-center">
-                            <div className="col-md-12 col-12 ">
-                                <h2 className="breadcrumb-title">Contact Us</h2>
-                                <nav aria-label="breadcrumb" className="page-breadcrumb">
-                                    <ol className="breadcrumb">
-                                        <li className="breadcrumb-item">
-                                            <Link to="/index">Home</Link>
-                                        </li>
-                                        <li className="breadcrumb-item active" aria-current="page">
-                                            Contact us
-                                        </li>
-                                    </ol>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/*/Inner Banner*/}
-            {/*contact Information*/}
+        <Layout>
             <div className="contactus-info">
                 <div className="container">
                     <div className="row">
@@ -103,13 +95,35 @@ const Contract = () => {
                         </div>
                         <div className="col-lg-7 col-md-7">
                             <div className="contactus-form">
-                                <form className="">
+                                <form onSubmit={handleSubmit(onSubmit, onErr)} className="">
                                     <div className="form-group">
                                         <input
                                             type="text"
                                             className="form-control"
-                                            placeholder="Name*"
-                                            required=""
+                                            placeholder="First name*"
+                                            {...register("first_name", {
+                                                required: "First name is required",
+                                            })}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Last name*"
+                                            {...register("last_name", {
+                                                required: "Last name is required",
+                                            })}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Company Name*"
+                                            {...register("company_name", {
+                                                required: "Company name is required",
+                                            })}
                                         />
                                     </div>
                                     <div className="form-group me-0">
@@ -117,23 +131,26 @@ const Contract = () => {
                                             type="email"
                                             className="form-control"
                                             placeholder="Email*"
-                                            required=""
+                                            {...register("email", {
+                                                required: "Email is required",
+                                            })}
                                         />
                                     </div>
-                                    <div className="form-group">
+                                    {/* <div className="form-group">
                                         <input
                                             type="text"
                                             className="form-control"
                                             placeholder="Subject"
                                         />
-                                    </div>
+                                    </div> */}
                                     <div className="form-group">
                                         <textarea
                                             rows={4}
                                             className="form-control"
                                             placeholder="Write a Message*"
-                                            required=""
-                                            defaultValue={""}
+                                            {...register("message", {
+                                                required: "Message is required",
+                                            })}
                                         />
                                     </div>
                                     <div className="submit-section">
@@ -148,9 +165,7 @@ const Contract = () => {
                     </div>
                 </div>
             </section>
-            {/*/contact Form*/}
-            <Footer />
-        </>
+        </Layout>
 
     );
 }

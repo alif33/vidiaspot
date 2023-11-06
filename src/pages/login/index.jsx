@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { apple, facebook, google } from "../imagepath";
+import { apple, facebook, google } from "../../lib/imagepath";
 import Layout from "../base/layout";
 import { useForm } from "react-hook-form";
 import HTTP from "../../lib/HTTP";

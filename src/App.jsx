@@ -9,7 +9,7 @@ import "./assets/css/feather.css";
 import "./assets/css/owl.theme.default.min.css";
 import "./assets/css/slick.css";
 import "./assets/css/style.css";
-import Home from "./components/home";
+import Home from "./pages/home";
 // import Home3 from "./components/home3";
 // import Home4 from "./components/home4";
 // import Home5 from "./components/home5";
@@ -39,7 +39,7 @@ import ListSidebar from "./components/Listings/LisitingListSidebar";
 // import MyListe from "./components/userPages/mylisting";
 // import Message from "./components/userPages/mesage";
 // import Review from "./components/userPages/review";
-// import AddLisiting from "./components/userPages/AddLisiting";
+import AddLisiting from "./pages/userPages/AddLisiting";
 // import BlogList from "./components/blog/BlogList";
 // import BlogDetailsh from "./components/blog/BlogList/blogDatalish";
 // import BlogGrid from "./components/blog/BlogList/BlogGrid";
@@ -80,7 +80,9 @@ const App = () => {
         <Route path="/my-listing" element={<MyListe/>} />
         <Route path="/messages" element={<Message/>} />
         <Route path="/reviews" element={<Review/>} />
+         */}
         <Route path="/add-listing" element={<AddLisiting/>} />
+        {/*
         <Route path="/blog-list" element={<BlogList/>} />
         <Route path="/blog-details" element={<BlogDetailsh/>} />
         <Route path="/blog-grid" element={<BlogGrid/>} />
