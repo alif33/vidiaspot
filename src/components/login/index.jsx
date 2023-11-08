@@ -20,10 +20,9 @@ const Login = () => {
     }
 
     const togglePassword =()=>{
-        if(passwordType==="password")
-        {
-        setPasswordType("text")
-        return;
+        if(passwordType==="password"){
+            setPasswordType("text")
+            return;
         }
         setPasswordType("password")
     }

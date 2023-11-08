@@ -1,27 +1,67 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { profile_img } from "../imagepath";
-import Header from "../home/header";
-import Footer from "../home/footer/Footer";
+import { profile_img } from "../../lib/imagepath";
+import { useForm } from "react-hook-form";
+import Footer from "../../components/base/footer";
 import UserHeader from "./Userheader";
+import { getAuth } from "../../lib/CookieHandler";
+import HTTP from "../../lib/HTTP";
 
 
 
 const Profile = () => {
     const [passwordType, setPasswordType] = useState("password");
-  const [passwordInput, setPasswordInput] = useState("");
-  const handlePasswordChange =(evnt)=>{
-    setPasswordInput(evnt.target.value);
-}
+    const [passwordInput, setPasswordInput] = useState("");
+    const handlePasswordChange =(evnt)=>{
+        setPasswordInput(evnt.target.value);
+    }
 
-const togglePassword =()=>{
-  if(passwordType==="password")
-  {
-   setPasswordType("text")
-   return;
-  }
-  setPasswordType("password")
-}
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setValue
+    } = useForm();
+
+
+    const auth = getAuth();
+
+    const togglePassword =()=>{
+    if(passwordType==="password"){
+        setPasswordType("text")
+        return;
+    }
+        setPasswordType("password")
+    }
+
+    useEffect(()=>{
+        const { name, email, } = auth.u;
+        setValue("name", name);
+        setValue("email", email);
+        
+    },[])
+    
+    const onErr = err => console.log(err)
+
+    const onSubmit = async(data) => {
+        console.log(data);
+        HTTP('put', `/users/${auth.u.id}`, data, auth.bearer)
+        .then(res=>{
+            console.log(res);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    };
+
+
+    // const handleUpdate = async()=>{
+    //     HTTP('/profile', )
+    // }
+
+    // const
+
+
     return (
         <>
         <UserHeader/>
@@ -121,7 +161,7 @@ const togglePassword =()=>{
                                             </Link>
                                         </div>
                                         <div className="profile-form">
-                                            <form>
+                                            <form onSubmit={handleSubmit(onSubmit, onErr)}>
                                                 <div className="form-group">
                                                     <label className="col-form-label">Your Full Name</label>
                                                     <div className="pass-group group-img">
@@ -131,7 +171,9 @@ const togglePassword =()=>{
                                                         <input
                                                             type="text"
                                                             className="form-control"
-                                                            defaultValue="John Doe"
+                                                            {...register("name", {
+                                                                required: "Name is required",
+                                                            })}
                                                         />
                                                     </div>
                                                 </div>
@@ -161,7 +203,9 @@ const togglePassword =()=>{
                                                                 <input
                                                                     type="text"
                                                                     className="form-control"
-                                                                    defaultValue="johndoe@email.com"
+                                                                    {...register("email", {
+                                                                        required: "Email is required",
+                                                                    })}
                                                                 />
                                                             </div>
                                                         </div>
@@ -243,6 +287,10 @@ const togglePassword =()=>{
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <button className="btn btn-primary" type="submit">
+                                                    {" "}
+                                                    Change Password
+                                                </button>
                                             </form>
                                         </div>
                                     </div>

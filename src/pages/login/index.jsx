@@ -40,7 +40,7 @@ const Login = () => {
         HTTP('post', '/auth/login', { email, password })
         .then(async (res)=>{
             if(res.success) {
-                await setAuth({auth: res.extra?.authToken, u: res.result});
+                await setAuth({ bearer: res.extra?.authToken, u: res.result });
                 navigate("/dashboard/my-listings");
             }
         })

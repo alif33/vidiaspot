@@ -16,6 +16,11 @@ export default async (method, endPoint, formData, token) => {
             'X-AppType': 'docs',
 
         };
+
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+
         const { data } = await api[method](endPoint, __f__, { headers });
         return data;
     } catch (error) {

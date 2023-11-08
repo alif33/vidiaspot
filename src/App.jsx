@@ -34,7 +34,7 @@ import ListSidebar from "./components/Listings/LisitingListSidebar";
 // import Error404 from "./components/pages/404error";
 import Error504 from "./components/pages/504error";
 import Dashboard from "./pages/userPages/Dashboard";
-import Profile from "./components/userPages/profile";
+import Profile from "./pages/userPages/profile";
 import Bookmarks from "./components/userPages/bookmark";
 import MyListe from "./pages/userPages/mylisting";
 import Message from "./components/userPages/mesage";
@@ -76,15 +76,18 @@ const App = () => {
         <Route path="/error-404" element={<Error404/>} />
         */
   }
-
+          <Route path="/dashboard" >
+            <Route path="error-500" element={<Error504/>} />
+            <Route path="sd" element={<Dashboard/>} />
+            <Route path="account" element={<Profile/>} />
+            <Route path="bookmarks" element={<Bookmarks/>} />
+            <Route path="my-listings" element={<Auth><MyListe/></Auth>} />
+            <Route path="messages" element={<Message/>} />
+            <Route path="reviews" element={<Review/>} />
+          </Route>
+          <Route path="/profile" element={<Profile/>} />
         {/* <Auth> */}
-          <Route path="/error-500" element={<Error504/>} />
-          <Route path="/dashboard" element={<Dashboard/>} />
-          <Route path="/account" element={<Profile/>} />
-          <Route path="/bookmarks" element={<Bookmarks/>} />
-          <Route path="/dashboard/my-listings" element={<Auth><MyListe/></Auth>} />
-          <Route path="/messages" element={<Message/>} />
-          <Route path="/reviews" element={<Review/>} />
+         
         {/* </Auth> */}
 
      
