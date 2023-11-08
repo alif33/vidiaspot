@@ -71,6 +71,7 @@
     "svg-loader": "^0.0.2",
     "svg-url-loader": "^8.0.0",
     "swiper": "^11.0.3",
+    "universal-cookie": "^6.1.1",
     "url-loader": "^4.1.1"
   },
   "devDependencies": {

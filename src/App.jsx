@@ -32,23 +32,24 @@ import ListSidebar from "./components/Listings/LisitingListSidebar";
 // import TermsCondition from "./components/pages/termsCondition";
 // import PrivacyPolicy from "./components/pages/privacyPolicy";
 // import Error404 from "./components/pages/404error";
-// import Error504 from "./components/pages/504error";
-// import Dashboard from "./components/userPages/Dashboard";
-// import Profile from "./components/userPages/profile";
-// import Bookmarks from "./components/userPages/bookmark";
-// import MyListe from "./components/userPages/mylisting";
-// import Message from "./components/userPages/mesage";
-// import Review from "./components/userPages/review";
+import Error504 from "./components/pages/504error";
+import Dashboard from "./pages/userPages/Dashboard";
+import Profile from "./components/userPages/profile";
+import Bookmarks from "./components/userPages/bookmark";
+import MyListe from "./pages/userPages/mylisting";
+import Message from "./components/userPages/mesage";
+import Review from "./components/userPages/review";
 import AddLisiting from "./pages/userPages/AddLisiting";
 // import BlogList from "./components/blog/BlogList";
 // import BlogDetailsh from "./components/blog/BlogList/blogDatalish";
 // import BlogGrid from "./components/blog/BlogList/BlogGrid";
 // import BlogListSideBar from "./components/blog/BlogList/blogListSidebar";
 // import BlogGridSidebar from "./components/blog/BlogList/blogGridSidebar";
-import Contract from "./components/contract";
-import SignUp from "./components/signUp";
-import Login from "./components/login";
-import ForgotPassword from "./components/forgotPassword";
+import Contract from "./pages/contract";
+import SignUp from "./pages/signUp";
+import Login from "./pages/login";
+import ForgotPassword from "./pages/forgotPassword";
+import Auth from "./components/guard"
 // import config from 'config';
 
 const App = () => {
@@ -73,13 +74,22 @@ const App = () => {
         <Route path="/terms-condition" element={<TermsCondition/>} />
         <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
         <Route path="/error-404" element={<Error404/>} />
-        <Route path="/error-500" element={<Error504/>} />
-        <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/profile" element={<Profile/>} />
-        <Route path="/bookmarks" element={<Bookmarks/>} />
-        <Route path="/my-listing" element={<MyListe/>} />
-        <Route path="/messages" element={<Message/>} />
-        <Route path="/reviews" element={<Review/>} />
+        */
+  }
+
+        {/* <Auth> */}
+          <Route path="/error-500" element={<Error504/>} />
+          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/account" element={<Profile/>} />
+          <Route path="/bookmarks" element={<Bookmarks/>} />
+          <Route path="/dashboard/my-listings" element={<Auth><MyListe/></Auth>} />
+          <Route path="/messages" element={<Message/>} />
+          <Route path="/reviews" element={<Review/>} />
+        {/* </Auth> */}
+
+     
+        {/*
+
          */}
         <Route path="/add-listing" element={<AddLisiting/>} />
         {/*

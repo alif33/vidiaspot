@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Layout from "../base/layout";
-import { apple, facebook, google } from "../imagepath";
+import Layout from "../../components/base/layout";
+import { apple, facebook, google } from "../../lib/imagepath";
 import { useForm } from "react-hook-form";
 import HTTP from "../../lib/HTTP";
 

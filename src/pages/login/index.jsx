@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apple, facebook, google } from "../../lib/imagepath";
-import Layout from "../base/layout";
+import Layout from "../../components/base/layout";
 import { useForm } from "react-hook-form";
 import HTTP from "../../lib/HTTP";
+import { setAuth } from "../../lib/CookieHandler";
 
 const Login = () => {
     const {
@@ -11,6 +12,7 @@ const Login = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
+    const navigate = useNavigate();
 
     const [passwordType, setPasswordType] = useState("password");
     const [passwordInput, setPasswordInput] = useState("");
@@ -33,34 +35,18 @@ const Login = () => {
 
     const onErr = err => console.log(err)
 
-    // const onSubmit = async(data) => {
-        
-    //     HTTP('post', '/auth/password/email', { email: data.email })
-    //     .then(res=>{
-    //         if (res.success) {
-    //             toast.success(`${res.message}`)
-    //         }
-    //     })
-    // };
-
-
-    const onSubmit = async (data) =>{
-
-        HTTP('get', '/homeSections')
-        .then(res=>{
-            console.log(res);
+    const onSubmit = async (data) =>{ 
+        const { email, password } = data;
+        HTTP('post', '/auth/login', { email, password })
+        .then(async (res)=>{
+            if(res.success) {
+                await setAuth({auth: res.extra?.authToken, u: res.result});
+                navigate("/dashboard/my-listings");
+            }
         })
-
-        
-        // const { email, password } = data;
-
-        // HTTP('post', '/auth/login', { email, password })
-        // .then(res=>{
-        //     console.log(res);
-        // })
-        // .catch(err=>{
-        //     console.log(err);
-        // })
+        .catch(err=>{
+            console.log(err);
+        })
     }
 
 

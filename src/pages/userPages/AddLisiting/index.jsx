@@ -11,81 +11,14 @@ import {
 } from "../../../lib/imagepath";
 import UserHeader from "../Userheader";
 import Footer from "../../../components/base/footer";
-
-
-
+import Layout from "../layout";
 
 const AddLisiting = () => {
     const parms=useLocation().pathname
     
     return (
-        <>
-        <UserHeader parms={parms}/>
-            {/* Breadscrumb Section */}
-            <div className="breadcrumb-bar">
-                <div className="container">
-                    <div className="row align-items-center text-center">
-                        <div className="col-md-12 col-12">
-                            <h2 className="breadcrumb-title">Add Listing</h2>
-                            <nav aria-label="breadcrumb" className="page-breadcrumb">
-                                <ol className="breadcrumb">
-                                    <li className="breadcrumb-item">
-                                        <Link to="/index">Home</Link>
-                                    </li>
-                                    <li className="breadcrumb-item active" aria-current="page">
-                                        Add Listing
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* /Breadscrumb Section */}
-            {/* Profile Content */}
-            <div className="dashboard-content">
-                <div className="container">
-                    <div className="">
-                        <ul className="dashborad-menus">
-                            <li>
-                                <Link to="/dashboard">
-                                    <i className="feather-grid" /> <span>Dashboard</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/profile">
-                                    <i className="fa-solid fa-user" /> <span>Profile</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/my-listing">
-                                    <i className="feather-list" /> <span>My Listing</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/bookmarks">
-                                    <i className="fas fa-solid fa-heart" /> <span>Bookmarks</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/mesaages">
-                                    <i className="fa-solid fa-comment-dots" /> <span>Messages</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/reviews">
-                                    <i className="fas fa-solid fa-star" /> <span>Reviews</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/login">
-                                    <i className="fas fa-light fa-circle-arrow-left" />{" "}
-                                    <span>Logout</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="profile-content">
+        <Layout>
+            <div className="profile-content">
                         <div className="messages-form">
                             <div className="card">
                                 <div className="card-header">
@@ -590,11 +523,7 @@ const AddLisiting = () => {
                             </button>
                         </div>
                     </div>
-                </div>
-            </div>
-            {/* /Profile Content */}
-            <Footer/>
-        </>
+        </Layout>
 
     );
 }
