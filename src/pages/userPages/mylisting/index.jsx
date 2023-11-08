@@ -1,42 +1,90 @@
-import React from "react";
-import Mylistings from "../../../json/Mylisting"
+import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import Layout from "../layout";
+import AXIOS from "../../../lib/AXIOS";
+import HTTP from "../../../lib/HTTP";
+import { getAuth } from "../../../lib/CookieHandler";
 
 
 const MyListe = () => {
-    const data = Mylistings.Mylistings;
-    const dataSource = {
-        data,
+    const [listings, setListings] = useState([]);
+    const auth = getAuth();
 
-    };
+    const fetchListings = ()=>{
+        AXIOS('get', 'posts?embed=null&sort=created_at&belongLoggedUser=1', auth.bearer)
+        .then( async (res)=>{
+            if(res.success){
+                const posts = res.result.data;
+                setListings(posts);
+                let updatePosts = [];
+                for (const post of posts) {
+                    const img = await HTTP('get', `/pictures/${post.id}?embed=null`);
+                    const image = img.result.url.medium;
+                    const updatePost = {
+                        ...post,
+                        image
+                    }
+                    updatePosts.push(updatePost);
+                }
+                setListings(updatePosts);
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    }
+
+    useEffect(()=>{
+        fetchListings();
+    }, [])
+
+
+    const handleMute= (id) =>{
+        AXIOS('put', `posts/${id}/offline`,  auth.bearer)
+        .then(res=>{
+            console.log(res);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    }
+
+    const handleDelete = (id)=>{
+        AXIOS('delete', `posts/${id}`,  auth.bearer)
+        .then(res=>{
+            if(res.success){
+                fetchListings();
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    }       
 
     const columns = [
         {
             title: 'Image',
             dataIndex: 'image',
-            render: (text, record, data) => (
-
-
+            render: (text, data, record) => (
                 <div className="listingtable-img">
                     {" "}
                     <Link to="/service-details">
+                        <h1>{data.name}</h1>
                         <img
                             className="img-fluid avatar-img"
-                            src={text}
+                            src={data.image}
                             alt=""
                         />
                     </Link>
                 </div>
-
             ),
             sorter: (a, b) => { a.image.length - b.image.length }
         },
         {
             title: 'Details',
             dataIndex: 'content',
-            render: (text, record, data) => (
+            render: (text, data, record) => (
                 <>
                     <h6>
                         <Link to="/service-details">
@@ -44,14 +92,15 @@ const MyListe = () => {
                         </Link>
                     </h6>
                     <div className="listingtable-rate">
+                        <h5>{data.title}</h5>
                         <Link to="#" className="cat-icon">
                             <i className="fa-regular fa-circle-stop" />{" "}
                             Electronics
                         </Link>{" "}
                         <span className="discount-amt">$350000.00</span>
-                        <span className="fixed-amt">$40000</span>
+                        <span className="fixed-amt">{data.price_formatted}</span>
                     </div>
-                    <p>Mauris vestibulum lorem a condimentum vulputate.</p>
+                    <p>{data.description}</p>
                 </>
             ),
             sorter: (a, b) => { a.content.length - b.content.length }
@@ -75,33 +124,44 @@ const MyListe = () => {
         {
             title: 'Action',
             dataIndex: 'class',
-            render: (text, record, data) => (
+            render: (text, data, record) => (
                 <div className={text}>
-                    <Link
-                        to="#"
+                    
+                    <span
                         className="action-btn btn-view"
+                        onClick={()=>handleMute(data.id)}
                     >
                         <i className="feather-eye" />
-                    </Link>
-                    <Link
+                    </span>
+                    <span
                         to="#"
                         className="action-btn btn-edit"
                     >
                         <i className="feather-edit-3" />
-                    </Link>
-                    <Link
-                        to="#"
+                    </span>
+                    <span
                         className="action-btn btn-trash"
+                        onClick={()=>handleDelete(data.id)}
                     >
                         <i className="feather-trash-2" />
-                    </Link>
+                    </span>
                 </div>
             ),
             sorter: (a, b) => { a.class.length - b.class.length }
         },
-
-
     ]
+
+    // const fetchPhoto = ()=>{
+    //    const __img = fetchImage()
+    //    console.log(__img);
+    // }
+
+    // const fetchImage = async(id)=>{
+    //     const img = await HTTP('get', `/pictures/${id}?embed=null`);
+    //     console.log(img.result.url.medium);
+    //     return img.result.url.medium
+    // }
+
     return (
         <Layout>
             <div className="dash-listingcontent dashboard-info">
@@ -141,19 +201,18 @@ const MyListe = () => {
                             </div>
                         </div>
                         <div className="table-responsive">
-                            
-                                <Table
-                                    className="listing-table datatable"
-                                    columns={columns}
-                                    // bordered
-                                    dataSource={data}
-                                    rowKey={(record) => record.id}
-                                    showSizeChanger={true}
-                                    
-
-
-                                />
-                            
+                            {
+                                listings && <Table
+                                className="listing-table datatable"
+                                columns={columns}
+                                // bordered
+                                dataSource={listings}
+                                rowKey={(record) => record.id}
+                                showSizeChanger={true}
+                            />
+                        
+                            }
+                                
                         </div>
                         <div className="blog-pagination">
                             <nav>

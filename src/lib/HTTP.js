@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 
 const api = axios.create({
-  baseURL: "https://vidiaspot.com/api",
+  baseURL: "https://newsite.vidiaspot.com/api",
 });
 
 export default async (method, endPoint, formData, token) => {
